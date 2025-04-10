@@ -18,5 +18,16 @@ if ./scripts/test-alt_alloc.sh ; then
     ((score += 100))
 fi
 
+if ./scripts/test-support_hashmap ; then
+    ((score += 100))
+fi
+
+if ./scripts/test-sys_map ; then
+    ((score += 100))
+fi
+
+if ./scripts/test-simple_hv ; then
+    ((score += 100))
+fi
 
 echo $score
