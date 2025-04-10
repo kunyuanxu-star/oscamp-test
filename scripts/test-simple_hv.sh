@@ -8,10 +8,6 @@ grep_content="Shutdown vm normally!"
 # 进入arceos目录
 cd arceos/ || exit
 
-# 准备测试环境（根据图片提示）
-make payload
-./update_disk.sh payload/skernel2/skernel2
-
 # 运行测试（启用块设备支持）
 make run A=exercises/simple_hv/ BLK=y > $tmp_file 2>/dev/null
 
