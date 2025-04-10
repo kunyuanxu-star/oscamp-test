@@ -15,8 +15,9 @@ RUN apt update && apt install -y \
     pkg-config \
     libssl-dev \
     libz-dev \
-    libclang-dev
-
+    libclang-dev && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # 下载rust 然后安装 cargo-binutils 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
