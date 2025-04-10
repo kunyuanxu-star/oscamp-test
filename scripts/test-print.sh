@@ -10,9 +10,9 @@ output=$(tail -n1 ./a.txt | grep -a "$(printf '\x1b')")
 rm a.txt
 
 if [[ -z "$output" ]] ;then
-    # echo "无颜色输出"
+    echo "print_with_color 不通过"
     exit 1
 else 
-    # echo "含有颜色输出"
+    echo "print_with_color 通过"
     exit 0
 fi
