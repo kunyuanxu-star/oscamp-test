@@ -18,15 +18,15 @@ if ./scripts/test-alt_alloc.sh ; then
     ((score += 100))
 fi
 
-if ./scripts/test-support_hashmap ; then
+if ./scripts/test-support_hashmap.sh ; then
     ((score += 100))
 fi
 
-if ./scripts/test-sys_map ; then
+if ./scripts/test-sys_map.sh ; then
     ((score += 100))
 fi
 
-if ./scripts/test-simple_hv ; then
+if ./scripts/test-simple_hv.sh ; then
     ((score += 100))
 fi
 
