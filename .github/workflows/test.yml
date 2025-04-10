@@ -29,6 +29,8 @@ jobs:
       image: yjymosheng/arceos-ci:latest
     steps:
       - uses: actions/checkout@v4
+      # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
+      # 当前目录 为仓库根目录
       - name: Run tests
         run: |
           qemu-system-riscv64 --version
