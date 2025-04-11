@@ -2,6 +2,13 @@
 
 cd arceos/ || exit
 
+rm pflash.img
+rm disk.img
+
+make pflash_img
+make disk_img
+
+
 make run A=exercises/print_with_color/ > a.txt 
 
 output=$(tail -n1 ./a.txt | grep -a "$(printf '\x1b')")

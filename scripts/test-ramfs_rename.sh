@@ -6,6 +6,14 @@ grep_content="\[Ramfs-Rename\]: ok!"
 
 cd arceos/ || exit
 
+
+rm pflash.img
+rm disk.img
+
+make pflash_img
+make disk_img
+
+
 make run A=exercises/ramfs_rename/ BLK=y > $tmp_file 2>/dev/null
 
 output=$(tail -n1 ./$tmp_file | grep -a "$grep_content")
