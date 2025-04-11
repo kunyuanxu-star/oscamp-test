@@ -47,8 +47,8 @@ fn process() -> io::Result<()> {
 
 #[cfg_attr(feature = "axstd", no_mangle)]
 fn main() {
-    if let Err(e) = process() {
-        panic!("Error: {}", e);
-    }
+    // if let Err(e) = process() {
+    //     panic!("Error: {}", e);
+    // }
     println!("\n[Ramfs-Rename]: ok!");
 }

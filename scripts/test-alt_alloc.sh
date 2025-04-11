@@ -7,8 +7,8 @@ grep_content="Bump tests run OK!"
 cd arceos/ || exit
 
 
-rm pflash.img
-rm disk.img
+rm pflash.img -f
+rm disk.img -f
 
 make pflash_img
 # make disk_img

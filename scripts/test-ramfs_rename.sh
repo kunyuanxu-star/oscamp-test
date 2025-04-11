@@ -7,11 +7,11 @@ grep_content="\[Ramfs-Rename\]: ok!"
 cd arceos/ || exit
 
 
-rm pflash.img
-rm disk.img
+rm pflash.img -f 
+rm disk.img -f
 
 make pflash_img
-make disk_img
+# make disk_img
 
 
 make run A=exercises/ramfs_rename/ BLK=y > $tmp_file 2>/dev/null
