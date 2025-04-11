@@ -10,6 +10,8 @@ jobs:
   basic-test:
     if: github.repository != 'arceos-org/oscamp'
     runs-on: ubuntu-latest
+    env:
+      PATH: /opt/musl/aarch64-linux-musl-cross/bin:/opt/musl/riscv64-linux-musl-cross/bin:/opt/musl/x86_64-linux-musl-cross/bin:$HOME/.cargo/bin:$PATH
     outputs:
       basic_points: ${{ steps.basic_points.outputs.basic_points}}
       lab1_points: ${{ steps.lab1_points.outputs.lab1_points}}
@@ -41,8 +43,7 @@ jobs:
             libclang-dev
 
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-          source "$HOME/.cargo/env"
+          
           cargo install cargo-binutils
 
           mkdir -p /opt/musl && cd /opt/musl
@@ -52,10 +53,6 @@ jobs:
           tar zxf aarch64-linux-musl-cross.tgz
           tar zxf riscv64-linux-musl-cross.tgz
           tar zxf x86_64-linux-musl-cross.tgz
-
-          echo "/opt/musl/aarch64-linux-musl-cross/bin" >> $GITHUB_PATH
-          echo "/opt/musl/riscv64-linux-musl-cross/bin" >> $GITHUB_PATH
-          echo "/opt/musl/x86_64-linux-musl-cross/bin" >> $GITHUB_PATH
           qemu-system-riscv64 --version
 
 
