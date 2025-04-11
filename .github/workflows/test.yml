@@ -44,6 +44,7 @@ jobs:
 
           ./scripts/total-test.sh > tmp.txt
           score=$(cat tmp.txt | tail -n1)
+          rm tmp.txt -f
           echo "basic_points=$score" >> $GITHUB_OUTPUT
 
       - name: lab1 test check 
@@ -61,6 +62,7 @@ jobs:
       - name: debug ci
         run: | 
           echo "GITHUB_OUTPUT is $GITHUB_OUTPUT"
+          cat $GITHUB_OUTPUT
 
   # deploy:
   #   if: github.repository != 'arceos-org/oscamp'
