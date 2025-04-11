@@ -82,8 +82,8 @@ jobs:
           basic_score: ${{ needs.basic-test.outputs.basic_points }}
           lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
         run : |
-          echo "Basic: $basic"
-          echo "Lab1: $lab1"
+          echo "Basic: $basic_score"
+          echo "Lab1: $lab1_score"
 
           total_score=600
 
@@ -93,7 +93,7 @@ jobs:
             --arg channel "github" \
             --argjson courseId "$course_id" \
             --arg name "$github_user" \
-            --argjson score "$basic" \
+            --argjson score "$basic_score" \
             --argjson totalScore "$total_score" \
             --arg ext "{}" \
             '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore}, ext: $ext}')
