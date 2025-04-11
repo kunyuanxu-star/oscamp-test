@@ -26,6 +26,7 @@ jobs:
           qemu-system-riscv64 --version
           pwd
 
+          git config --global --add safe.directory /__w/oscamp-test/oscamp-test
           git branch -a 
 
           chmod -R +x scripts/
