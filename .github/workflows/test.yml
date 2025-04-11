@@ -75,9 +75,9 @@ jobs:
 
       - name : Deploy to pages
         env : 
-          course_id: ${{ secrets.RCORE_2025_SPRING_COURSE_ID }}
-          post_api: ${{ secrets.RCORE_2025_SPRING_POST_API }}
-          token: ${{ secrets.RCORE_2025_SPRING_TOKEN }}
+          course_id: 1806
+          post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
+          token: fbee89b9866b46318cddeec86f99f331
           github_user: ${{ github.actor }}
           basic_score: ${{ needs.basic-test.outputs.basic_points }}
           lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
