@@ -2,9 +2,11 @@
 
 cd arceos/ || exit
 
-make run A=exercises/print_with_color/ > a.txt 2>/dev/null
+make run A=exercises/print_with_color/ > a.txt 
 
 output=$(tail -n1 ./a.txt | grep -a "$(printf '\x1b')")
+
+tail -n1 ./a.txt | grep -a "$(printf '\x1b')"
 
 # 避免环境污染
 rm a.txt
