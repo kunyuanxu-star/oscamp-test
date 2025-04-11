@@ -11,13 +11,14 @@ rm pflash.img -f
 rm disk.img -f
 
 make pflash_img
-# make disk_img
+make disk_img
 
 
-make run A=exercises/ramfs_rename/ BLK=y > $tmp_file 2>/dev/null
+make run A=exercises/ramfs_rename/ BLK=y > $tmp_file 
 
 output=$(tail -n1 ./$tmp_file | grep -a "$grep_content")
 
+cat $tmp_file
 # 避免环境污染
 rm -rf $tmp_file 
 

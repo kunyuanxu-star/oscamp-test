@@ -6,11 +6,14 @@ grep_content="\(Read back content: hello, arceos!\|\[Sys-Mmap\]: ok!\)"
 
 cd arceos/ || exit
 
-rm pflash.img
-rm disk.img
+rm pflash.img -f
+rm disk.img -f
 
 make pflash_img
-# make disk_img
+make disk_img
+
+make payload
+./update_disk.sh payload/mapfile_c/mapfile
 
 # 添加BLK=y参数支持块设备
 make run A=exercises/sys_map/ BLK=y > $tmp_file 2>/dev/null

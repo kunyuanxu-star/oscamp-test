@@ -8,7 +8,7 @@ docker:
 	@docker run --rm -it -v ${PWD}:/mnt -w /mnt ${DOCKER_NAME} bash
 
 clean: 
-	@dockre rmi ${DOCKER_NAME}
+	@docker rmi ${DOCKER_NAME}
 
 build:
 	@docker build -t ${DOCKER_NAME} . 

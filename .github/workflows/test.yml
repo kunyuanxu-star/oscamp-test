@@ -13,13 +13,50 @@ jobs:
     outputs:
       basic_points: ${{ steps.basic_points.outputs.basic_points}}
       lab1_points: ${{ steps.lab1_points.outputs.lab1_points}}
-    container:
-      image: yjymosheng/arceos-ci:latest
     steps:
       - name: basic test check 
         uses: actions/checkout@v4
       # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
       # 当前目录 为仓库根目录
+
+      - name: install dependencies
+        run: |
+          apt update && apt install -y \
+            wget \
+            xxd \
+            curl \
+            gcc \
+            g++ \
+            make \
+            libclang-dev \
+            qemu-system \
+            bash \
+            sudo \
+            git \
+            dosfstools \
+            build-essential \
+            pkg-config \
+            libssl-dev \
+            libz-dev \
+            libclang-dev
+
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          source "$HOME/.cargo/env"
+          cargo install cargo-binutils
+
+          mkdir -p /opt/musl && cd /opt/musl
+          wget https://musl.cc/aarch64-linux-musl-cross.tgz
+          wget https://musl.cc/riscv64-linux-musl-cross.tgz
+          wget https://musl.cc/x86_64-linux-musl-cross.tgz
+          tar zxf aarch64-linux-musl-cross.tgz
+          tar zxf riscv64-linux-musl-cross.tgz
+          tar zxf x86_64-linux-musl-cross.tgz
+
+          echo "/opt/musl/aarch64-linux-musl-cross/bin" >> $GITHUB_PATH
+          echo "/opt/musl/riscv64-linux-musl-cross/bin" >> $GITHUB_PATH
+          echo "/opt/musl/x86_64-linux-musl-cross/bin" >> $GITHUB_PATH
+
       - name: Run basic
         id : basic_points
         run: |
