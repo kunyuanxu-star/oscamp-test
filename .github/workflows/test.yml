@@ -25,7 +25,8 @@ jobs:
     if: github.repository != 'arceos-org/oscamp'
     runs-on: ubuntu-latest
     outputs:
-      points: ${{ steps.run_tests.outputs.points}}
+      basic_points: ${{ steps.basic_points.outputs.basic_points}}
+      lab1_points: ${{ steps.lab1_points.outputs.lab1_points}}
     container:
       image: yjymosheng/arceos-ci:latest
     steps:
@@ -34,21 +35,41 @@ jobs:
       # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
       # 当前目录 为仓库根目录
       - name: Run tests
-        id : run_tests
+        id : basic_points
         run: |
           qemu-system-riscv64 --version
           pwd
+
+          chmod -R +x scripts/
+
           ./scripts/total-test.sh > tmp.txt
           score=$(cat tmp.txt)
-          echo "points=$score" >> $GITHUB_OUTPUT
-  deploy:
-    if: github.repository != 'arceos-org/oscamp'
-    name: Deploy to pages
-    needs: basic-test
-    runs-on: ubuntu-latest
-    steps:
-     - name: Checkout repository
-       uses: actions/checkout@v4
+          echo "basic_points=$score" >> $GITHUB_OUTPUT
+
+      - name: lab1 test check 
+        uses: actions/checkout@v4
+        with:
+         ref: mosheng-ci-lab1
+        # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
+        # 当前目录 为仓库根目录
+      - name: Run lab1
+        id : lab1_points
+        run: |
+            chmod -R +x scripts/
+            ./scripts/test-lab1.sh
+
+      - name: debug ci
+        run: | 
+          echo "GITHUB_OUTPUT is $GITHUB_OUTPUT"
+
+  # deploy:
+  #   if: github.repository != 'arceos-org/oscamp'
+  #   name: Deploy to pages
+  #   needs: basic-test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v4
     #   steps:
       #     - uses: actions/checkout@v3
       #       continue-on-error: true
