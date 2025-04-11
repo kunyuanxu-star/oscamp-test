@@ -56,6 +56,10 @@ jobs:
 
           echo $PATH
 
+          /usr/bin/qemu-system-riscv64 --version
+
+          which qemu-system-riscv64
+
       - name: Run basic
         id : basic_points
         run: |
