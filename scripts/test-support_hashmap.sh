@@ -7,7 +7,7 @@ cd arceos/ || exit
 
 pwd
 
-make run A=exercises/support_hashmap/ > $tmp_file 
+make run A=exercises/support_hashmap/ > $tmp_file 2>/dev/null
 
 output=$(tail -n1 ./$tmp_file | grep -a "$grep_content")
 
