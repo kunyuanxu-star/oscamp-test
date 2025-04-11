@@ -23,7 +23,8 @@ jobs:
 
       - name: install dependencies
         run: |
-          apt update && apt install -y \
+          sudo apt-get update 
+          sudo apt-get install -y \
             wget \
             xxd \
             curl \
@@ -31,7 +32,7 @@ jobs:
             g++ \
             make \
             libclang-dev \
-            qemu-system \
+            qemu-system-misc \
             bash \
             sudo \
             git \
@@ -56,9 +57,8 @@ jobs:
 
           echo $PATH
 
-          /usr/bin/qemu-system-riscv64 --version
+          qemu-system-riscv64 --version
 
-          which qemu-system-riscv64
 
       - name: Run basic
         id : basic_points

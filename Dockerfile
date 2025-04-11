@@ -8,7 +8,7 @@ RUN apt update && apt install -y \
     g++ \
     make \
     libclang-dev \
-    qemu-system \
+    qemu-system-misc \
     bash \
     sudo \
     git \
