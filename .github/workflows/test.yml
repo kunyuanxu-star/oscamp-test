@@ -30,6 +30,7 @@ jobs:
 
           ./scripts/total-test.sh > tmp.txt
           score=$(cat tmp.txt | tail -n1)
+          echo $score
           rm tmp.txt -f
           echo "basic_points=$score" >> $GITHUB_OUTPUT
 
