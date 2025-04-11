@@ -13,11 +13,9 @@ make pflash_img
 # make disk_img
 
 
-make run A=exercises/support_hashmap/ > $tmp_file 
+make run A=exercises/support_hashmap/ > $tmp_file 2>/dev/null
 
 output=$(tail -n1 ./$tmp_file | grep -a "$grep_content")
-
-cat $tmp_file
 
 # 清理临时文件
 rm -rf $tmp_file 
