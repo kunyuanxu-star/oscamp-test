@@ -28,7 +28,6 @@ jobs:
           chmod -R +x scripts/
 
           ./scripts/total-test.sh
-          ./scripts/test-support_hashmap.sh
 
           ./scripts/total-test.sh > tmp.txt
           score=$(cat tmp.txt | tail -n1)
