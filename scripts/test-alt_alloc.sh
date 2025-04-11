@@ -11,7 +11,7 @@ rm pflash.img
 rm disk.img
 
 make pflash_img
-make disk_img
+# make disk_img
 
 
 make A=exercises/alt_alloc/ run > $tmp_file 2>/dev/null
