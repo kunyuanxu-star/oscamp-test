@@ -27,10 +27,10 @@ rm -rf $tmp_file
 if [[ -z "$output" ]]; then
     echo "sys_mmap 测试不通过"
     # 添加调试信息：打印最后5行日志
-    tail -n5 $tmp_file 2>/dev/null || echo "无输出日志"
+    # tail -n5 $tmp_file 2>/dev/null || echo "无输出日志"
     exit 1
 else 
     echo "sys_mmap 测试通过"
-    echo "成功输出内容：$output"
+    # echo "成功输出内容：$output"
     exit 0
 fi
