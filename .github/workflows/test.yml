@@ -96,7 +96,7 @@ jobs:
             --argjson score "$basic_score" \
             --argjson totalScore "$total_score" \
             --arg ext "{}" \
-            '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore}, ext: $ext}')
+            '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore, ext: $ext}')
 
           
           echo "提交的 JSON:"
@@ -113,9 +113,9 @@ jobs:
           echo "返回结果: $response"
 
           if echo "$response" | grep -q '"result":1'; then
-            echo "✅ 成功：测试数据已发送（未入库）"
+            echo "成功：测试数据已发送（未入库）"
           else
-            echo "❌ 失败：接口返回异常"
+            echo "失败：接口返回异常"
             exit 1
           fi
 
