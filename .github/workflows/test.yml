@@ -64,9 +64,10 @@ jobs:
         id : basic_points
         run: |
           qemu-system-riscv64 --version
+          source $HOME/.cargo/env
           pwd
           echo $PATH
-
+          cargo --version
           chmod -R +x scripts/
           
           ./scripts/total-test.sh > tmp.txt
