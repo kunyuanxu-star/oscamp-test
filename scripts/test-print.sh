@@ -13,6 +13,8 @@ make run A=exercises/print_with_color/ > a.txt
 
 output=$(tail -n1 ./a.txt | grep -a "$(printf '\x1b')")
 
+echo "add debug line "
+
 tail -n1 ./a.txt | grep -a "$(printf '\x1b')"
 
 # 避免环境污染
