@@ -91,7 +91,7 @@ jobs:
 
           score_json=$(jq -n \
             --arg channel "github" \
-            --argjson courseId "$course_id" \
+            --arg courseId "$course_id" \
             --arg name "$github_user" \
             --arg score "$basic_score" \
             --arg totalScore "$total_score" \
