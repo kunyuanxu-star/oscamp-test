@@ -27,8 +27,6 @@ jobs:
           pwd
           chmod -R +x scripts/
 
-          ./scripts/total-test.sh
-          cat arceos/exercises/support_hashmap/src/main.rs
           ./scripts/total-test.sh > tmp.txt
           score=$(cat tmp.txt | tail -n1)
           echo $score

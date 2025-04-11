@@ -10,7 +10,7 @@ rm pflash.img
 rm disk.img
 
 make pflash_img
-make disk_img
+# make disk_img
 
 # 添加BLK=y参数支持块设备
 make run A=exercises/sys_map/ BLK=y > $tmp_file 2>/dev/null

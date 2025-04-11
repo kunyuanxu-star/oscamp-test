@@ -10,7 +10,9 @@ RUN apt update && apt install -y \
     libclang-dev \
     qemu-system \
     bash \
+    sudo \
     git \
+    dosfstools \
     build-essential \
     pkg-config \
     libssl-dev \

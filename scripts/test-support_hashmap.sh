@@ -6,11 +6,11 @@ grep_content="Memory tests run OK!"
 cd arceos/ || exit
 
 
-rm pflash.img
-rm disk.img
+rm pflash.img -f
+rm disk.img -f 
 
 make pflash_img
-make disk_img
+# make disk_img
 
 
 make run A=exercises/support_hashmap/ > $tmp_file 
