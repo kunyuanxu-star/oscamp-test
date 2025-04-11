@@ -43,7 +43,7 @@ jobs:
           chmod -R +x scripts/
 
           ./scripts/total-test.sh > tmp.txt
-          score=$(cat tmp.txt)
+          score=$(cat tmp.txt | tail -n1)
           echo "basic_points=$score" >> $GITHUB_OUTPUT
 
       - name: lab1 test check 
