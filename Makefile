@@ -5,7 +5,7 @@ get:
 	@sudo chown $(shell whoami):$(shell id -gn) -R .
 
 docker: 
-	@docker run --rm -it -v ${PWD}:/mnt -w /mnt ${DOCKER_NAME} bash
+	@docker run --rm -it  --privileged  -v  ${PWD}:/mnt -w /mnt ${DOCKER_NAME} bash
 
 clean: 
 	@docker rmi ${DOCKER_NAME}

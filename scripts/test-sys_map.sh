@@ -2,7 +2,7 @@
 
 tmp_file=mmap_test_output.txt
 # 修改为识别两种可能的成功输出格式
-grep_content="\(Read back content: hello, arceos!\|\[Sys-Mmap\]: ok!\)"
+grep_content="Read back content: hello, arceos!"
 
 cd arceos/ || exit
 
