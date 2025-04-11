@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
       # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
       # 当前目录 为仓库根目录
-      - name: Run tests
+      - name: Run basic
         id : basic_points
         run: |
           qemu-system-riscv64 --version
@@ -63,6 +63,61 @@ jobs:
         run: | 
           echo "GITHUB_OUTPUT is $GITHUB_OUTPUT"
           cat $GITHUB_OUTPUT
+  deploy:
+    if: github.repository != 'arceos-org/oscamp'
+    name: Report Score to Server
+    needs:  basic-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (for consistency)
+        uses: actions/checkout@v4
+
+      - name : Deploy to pages
+        env : 
+          course_id: ${{ secrets.RCORE_2025_SPRING_COURSE_ID }}
+          post_api: ${{ secrets.RCORE_2025_SPRING_POST_API }}
+          token: ${{ secrets.RCORE_2025_SPRING_TOKEN }}
+          github_user: ${{ github.actor }}
+          basic_score: ${{ needs.basic-test.outputs.basic_points }}
+          lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
+        run : |
+          echo "Basic: $basic"
+          echo "Lab1: $lab1"
+
+          total_score=600
+
+          # 先上传基础试试
+
+          score_json=$(jq -n \
+            --arg channel "github" \
+            --argjson courseId "$course_id" \
+            --arg name "$github_user" \
+            --argjson score "$basic" \
+            --argjson totalScore "$total_score" \
+            --arg ext "{}" \
+            '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore}, ext: $ext}')
+
+          
+          echo "提交的 JSON:"
+          echo "$score_json"
+
+          response=$(curl -X POST "$post_api" \
+            -H "accept: application/json;charset=utf-8" \
+            -H "Content-Type: application/json" \
+            -H "token: $token" \
+            -H "isTest: true" \
+            -d "$score_json" \
+            -s)
+
+          echo "返回结果: $response"
+
+          if echo "$response" | grep -q '"result":1'; then
+            echo "✅ 成功：测试数据已发送（未入库）"
+          else
+            echo "❌ 失败：接口返回异常"
+            exit 1
+          fi
 
   # deploy:
   #   if: github.repository != 'arceos-org/oscamp'
