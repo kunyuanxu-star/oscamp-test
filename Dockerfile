@@ -19,12 +19,13 @@ RUN apt update && apt install -y \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# 下载rust 然后安装 cargo-binutils 
+# 安装 Rust 和 cargo-binutils
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-RUN  bash -c "source $HOME/.cargo/env && cargo install cargo-binutils"
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN cargo install cargo-binutils
 
-
-# install musl toolchains
+# 安装 musl toolchains
+WORKDIR /opt/musl
 RUN wget https://musl.cc/aarch64-linux-musl-cross.tgz && \
     wget https://musl.cc/riscv64-linux-musl-cross.tgz && \
     wget https://musl.cc/x86_64-linux-musl-cross.tgz && \
@@ -32,9 +33,8 @@ RUN wget https://musl.cc/aarch64-linux-musl-cross.tgz && \
     tar zxf riscv64-linux-musl-cross.tgz && \
     tar zxf x86_64-linux-musl-cross.tgz
 
-# 设置 musl 工具链的路径
-RUN echo 'export PATH=`pwd`/x86_64-linux-musl-cross/bin:`pwd`/aarch64-linux-musl-cross/bin:`pwd`/riscv64-linux-musl-cross/bin:$PATH' >> ~/.bashrc
-RUN  bash -c "source ~/.bashrc"
+# 添加 musl 工具链路径到环境变量
+ENV PATH="/opt/musl/x86_64-linux-musl-cross/bin:/opt/musl/aarch64-linux-musl-cross/bin:/opt/musl/riscv64-linux-musl-cross/bin:${PATH}"
 
 # 设置工作目录
 WORKDIR /mnt/
