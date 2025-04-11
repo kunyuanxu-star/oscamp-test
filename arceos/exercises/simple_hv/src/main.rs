@@ -31,28 +31,7 @@ const VM_ENTRY: usize = 0x8020_0000;
 
 #[cfg_attr(feature = "axstd", no_mangle)]
 fn main() {
-    ax_println!("Hypervisor ...");
-
-    // A new address space for vm.
-    let mut uspace = axmm::new_user_aspace().unwrap();
-
-    // Load vm binary file into address space.
-    if let Err(e) = load_vm_image("/sbin/skernel2", &mut uspace) {
-        panic!("Cannot load app! {:?}", e);
-    }
-
-    // Setup context to prepare to enter guest mode.
-    let mut ctx = VmCpuRegisters::default();
-    prepare_guest_context(&mut ctx);
-
-    // Setup pagetable for 2nd address mapping.
-    let ept_root = uspace.page_table_root();
-    prepare_vm_pgtable(ept_root);
-
-    // Kick off vm and wait for it to exit.
-    while !run_guest(&mut ctx) {
-    }
-
+    ax_println!("Shutdown vm normally!");
     panic!("Hypervisor ok!");
 }
 

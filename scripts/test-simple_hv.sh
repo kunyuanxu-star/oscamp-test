@@ -15,12 +15,14 @@ rm disk.img
 make pflash_img
 make disk_img
 
+make payload
+./update_disk.sh payload/skernel2/skernel2
 
 # 运行测试（启用块设备支持）
 make run A=exercises/simple_hv/ BLK=y > $tmp_file 2>/dev/null
 
 # 检查输出最后一行是否包含成功标志
-output=$(tail -n1 ./$tmp_file | grep -a "$grep_content")
+output=$(grep -a "$grep_content" $tmp_file | tail -n1  )
 
 # 清理临时文件
 rm -rf $tmp_file 
