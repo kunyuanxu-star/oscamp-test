@@ -56,6 +56,8 @@ jobs:
           echo "/opt/musl/aarch64-linux-musl-cross/bin" >> $GITHUB_PATH
           echo "/opt/musl/riscv64-linux-musl-cross/bin" >> $GITHUB_PATH
           echo "/opt/musl/x86_64-linux-musl-cross/bin" >> $GITHUB_PATH
+          qemu-system-riscv64 --version
+
 
       - name: Run basic
         id : basic_points
