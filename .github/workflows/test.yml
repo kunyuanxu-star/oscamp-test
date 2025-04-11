@@ -26,10 +26,13 @@ jobs:
           qemu-system-riscv64 --version
           pwd
 
+          git branch -a 
+
           chmod -R +x scripts/
 
           ./scripts/total-test.sh
-          
+          ./scripts/test-support_hashmap.sh
+
           ./scripts/total-test.sh > tmp.txt
           score=$(cat tmp.txt | tail -n1)
           echo $score
