@@ -93,10 +93,10 @@ jobs:
             --arg channel "github" \
             --argjson courseId "$course_id" \
             --arg name "$github_user" \
-            --argjson score "$basic_score" \
-            --argjson totalScore "$total_score" \
+            --arg score "$basic_score" \
+            --arg totalScore "$total_score" \
             --arg ext "{}" \
-            '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore, ext: $ext}')
+            '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
 
           
           echo "提交的 JSON:"
