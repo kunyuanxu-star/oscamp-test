@@ -11,7 +11,7 @@ jobs:
     if: github.repository != 'arceos-org/oscamp'
     runs-on: ubuntu-latest
     env:
-      PATH: /opt/musl/aarch64-linux-musl-cross/bin:/opt/musl/riscv64-linux-musl-cross/bin:/opt/musl/x86_64-linux-musl-cross/bin:$HOME/.cargo/bin:$PATH
+      PATH: /opt/musl/x86_64-linux-musl-cross/bin:/opt/musl/aarch64-linux-musl-cross/bin:/opt/musl/riscv64-linux-musl-cross/bin:$HOME/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
     outputs:
       basic_points: ${{ steps.basic_points.outputs.basic_points}}
       lab1_points: ${{ steps.lab1_points.outputs.lab1_points}}
