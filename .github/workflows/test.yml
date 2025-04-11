@@ -65,6 +65,8 @@ jobs:
         run: |
           qemu-system-riscv64 --version
           pwd
+          echo $PATH
+
           chmod -R +x scripts/
           
           ./scripts/total-test.sh > tmp.txt
