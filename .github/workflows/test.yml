@@ -156,7 +156,7 @@ jobs:
            --arg channel "github" \
            --arg courseId "$course_id" \
            --arg name "$github_user" \
-           --arg score "$lab1_score_cleaned" \
+           --arg score "$lab1_score" \
            --arg totalScore "$total_score" \
            --arg ext "{}" \
            '{
