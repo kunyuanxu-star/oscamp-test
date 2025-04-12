@@ -71,10 +71,13 @@ jobs:
             export PATH="$HOME/.cargo/bin:$PATH"
             source $HOME/.cargo/env
 
-            which cargo || echo "cargo not found"
-            cargo --version || echo "cargo command failed"
             chmod -R +x scripts/
             cd arceos || exit 1
+
+            ./verify_lab1.sh
+
+            ../scripts/test-lab1.sh
+
             ../scripts/test-lab1.sh > tmpa.txt
             lab1_score=$(tail -n1 tmpa.txt | grep -oE '[0-9]+')
 
