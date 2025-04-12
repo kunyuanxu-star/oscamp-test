@@ -19,9 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
          ref: mosheng-ci-lab1
-      # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
-      # 当前目录 为仓库根目录
-
+    
       - name: install dependencies
         run: |
           sudo apt-get update 
@@ -56,9 +54,6 @@ jobs:
           tar zxf riscv64-linux-musl-cross.tgz
           tar zxf x86_64-linux-musl-cross.tgz
 
-
-        # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
-        # 当前目录 为仓库根目录
       - name: Run lab1
         id : lab1_points
         run: |
