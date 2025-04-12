@@ -76,7 +76,7 @@ jobs:
             chmod -R +x scripts/
             cd arceos || exit 1
             ../scripts/test-lab1.sh > tmpa.txt
-            lab1_score=$(cat tmpa.txt | tail -n1)
+            lab1_score=$(tail -n1 tmpa.txt | grep -oE '[0-9]+')
 
             cat tmpa.txt
 
