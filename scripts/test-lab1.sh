@@ -10,7 +10,7 @@ pwd
 which cargo
 cargo --version
 
-timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 
+timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 2>/dev/null
 # exit_code=$?
 
 # echo "timeout exit_code = $exit_code"
