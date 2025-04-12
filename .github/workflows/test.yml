@@ -86,7 +86,8 @@ jobs:
         id : lab1_points
         run: |
             chmod -R +x scripts/
-            ./scripts/test-lab1.sh > tmpa.txt
+            cd arceos || exit 1
+            ../scripts/test-lab1.sh > tmpa.txt
             lab1_score=$(cat tmp.txt | tail -n1)
             echo $lab1_score
             rm tmp.txt -f
