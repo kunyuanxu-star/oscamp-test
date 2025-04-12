@@ -147,21 +147,25 @@ jobs:
 
            lab1_score=$(echo "$lab1_score" | tr -d '\r\n ')
 
-            if ! echo "$lab1_score" | grep -qE '^[0-9]+$'; then
-              echo "lab1_score 不是有效数字: '$lab1_score'"
-              exit 1
-            fi
+    
 
-             total_score=373
-             # 试试挑战题 
-             score_json=$(jq -n \
-              --arg channel "github" \
-              --arg courseId "$course_id" \
-              --arg name "$github_user" \
-              --argjson score "$lab1_score" \
-              --argjson totalScore "$total_score" \
-              --arg ext "{}" \
-              '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore, ext: $ext}')
+           total_score=373
+           # 试试挑战题 
+           score_json=$(jq -n \
+           --arg channel "github" \
+           --arg courseId "$course_id" \
+           --arg name "$github_user" \
+           --arg score "$lab1_score_cleaned" \
+           --arg totalScore "$total_score" \
+           --arg ext "{}" \
+           '{
+           channel: $channel,
+           courseId: $courseId,
+           name: $name,
+           score: ($score | tonumber),
+           totalScore: ($totalScore | tonumber),
+           ext: $ext
+           }')
              
            echo "提交的 JSON:"
            echo "$score_json"
