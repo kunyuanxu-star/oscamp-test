@@ -86,6 +86,7 @@ jobs:
         id : lab1_points
         run: |
             qemu-system-riscv64 --version
+            # 必须刷新cargo ,不然shell里面调用cargo 会提前结束
             source $HOME/.cargo/env
             chmod -R +x scripts/
             cd arceos || exit 1
