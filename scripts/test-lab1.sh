@@ -3,7 +3,6 @@
 TMP_FILE=g.txt
 TIMEOUT_DURATION=20
 
-
 # 工作目录的原因,这个得在ci设置为arceos目录下运行
 
 timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 2>/dev/null
@@ -14,10 +13,10 @@ timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 2>/dev/n
 # if [ "$exit_code" -eq 124 ]; then
 #     score=99999
 # else
-    score=$(grep "Indicator:" $TMP_FILE | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/')
-    # echo "得分为: $score"
+score=$(grep "Indicator:" $TMP_FILE | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/')
+# echo "得分为: $score"
 
-    score=${score:-0}
+score=${score:-0}
 # fi
 
 # rm $TMP_FILE
