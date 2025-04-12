@@ -15,7 +15,7 @@ jobs:
     outputs:
       lab1_points: ${{ steps.lab1_points.outputs.lab1_points}}
     steps:
-      - name: basic test check 
+      - name: challenge test check 
         uses: actions/checkout@v4
         with:
          ref: mosheng-ci-lab1
