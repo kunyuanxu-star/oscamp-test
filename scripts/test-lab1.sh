@@ -21,6 +21,8 @@ timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 2>/dev/n
 score=$(grep "Indicator:" $TMP_FILE | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/')
 # echo "得分为: $score"
 
+grep "Indicator:" $TMP_FILE | tail -n1 
+
 echo "$score"
 
 score=${score:-0}
