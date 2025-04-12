@@ -96,9 +96,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Checkout (for consistency)
-      #   uses: actions/checkout@v4
-
       # - name : Deploy basic to pages
       #   env : 
       #     course_id: 1806
@@ -143,11 +140,6 @@ jobs:
       #       exit 1
       #     fi
 
-      - name: Checkout (for consistency)
-        uses: actions/checkout@v4
-        with:
-          ref : lab1
-  
       - name : Deploy challenge to pages
         env : 
            course_id: 1806
