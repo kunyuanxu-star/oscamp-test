@@ -56,10 +56,6 @@ jobs:
           tar zxf riscv64-linux-musl-cross.tgz
           tar zxf x86_64-linux-musl-cross.tgz
 
-          echo $PATH
-
-          qemu-system-riscv64 --version
-
 
         # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
         # 当前目录 为仓库根目录
@@ -105,7 +101,7 @@ jobs:
            lab1_score_after=$(echo "$lab1_score" | tr -d '\r\n ')
 
            total_score=373
-           # 试试挑战题 
+
            score_json=$(jq -n \
            --arg channel "github" \
            --arg courseId "$course_id" \
@@ -122,16 +118,14 @@ jobs:
            ext: $ext
            }')
              
-           echo "提交的 JSON:"
-           echo "$score_json"
-             response=$(curl -X POST "$post_api" \
-             -H "accept: application/json;charset=utf-8" \
-             -H "Content-Type: application/json" \
-             -H "token: $token" \
-             -d "$score_json" \
-             -s)
-             echo "返回结果: $response"
-             if echo "$response" | grep -q '"result":1'; then
+           response=$(curl -X POST "$post_api" \
+            -H "accept: application/json;charset=utf-8" \
+            -H "Content-Type: application/json" \
+            -H "token: $token" \
+            -d "$score_json" \
+            -s)
+
+           if echo "$response" | grep -q '"result":1'; then
              echo "成功：测试数据已发送"
            else
              echo "失败：接口返回异常"
