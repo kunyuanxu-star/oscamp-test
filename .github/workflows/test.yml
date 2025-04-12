@@ -104,8 +104,6 @@ jobs:
 
            lab1_score_after=$(echo "$lab1_score" | tr -d '\r\n ')
 
-    
-
            total_score=373
            # 试试挑战题 
            score_json=$(jq -n \
@@ -139,68 +137,3 @@ jobs:
              echo "失败：接口返回异常"
              exit 1
            fi
-
-  # deploy:
-  #   if: github.repository != 'arceos-org/oscamp'
-  #   name: Deploy to pages
-  #   needs: basic-test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #    - name: Checkout repository
-  #      uses: actions/checkout@v4
-    #   steps:
-      #     - uses: actions/checkout@v3
-      #       continue-on-error: true
-      #       with:
-        #         ref: 'gh-pages'
-        #     - name: Save Log File
-        #       uses: yfblock/multi-rank-log@main
-        #       with:
-          #         public-dir: classroom
-          #         points: ${{ needs.basic-test.outputs.points }}
-          #     - name: GitHub Pages
-          #       uses: crazy-max/ghaction-github-pages@v3
-          #       with:
-            #         target_branch: gh-pages
-            #         build_dir: ./classroom
-            #         keep_history: true
-            #       env:
-              #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              #     - name: check score
-              #       env:
-                #         course_id: ${{ secrets.RCORE_2025_SPRING_COURSE_ID }}
-                #         post_api: ${{ secrets.RCORE_2025_SPRING_POST_API }}
-                #         token: ${{ secrets.RCORE_2025_SPRING_TOKEN }}
-                #       run: |
-                #         score=$(( $(grep -o 'ch' classroom/latest.json | wc -l) * 100))
-                #         cat classroom/latest.json
-                #         echo $score
-                
-                #         github_user="${{ github.actor }}"
-                
-                #         # 生成 JSON 结果
-                #         score_json=$(jq -n \
-                #           --arg channel "github" \
-                #           --argjson courseId "$course_id" \
-                #           --arg name "$github_user" \
-                #           --argjson score "$score" \
-                #           --argjson totalScore 500 \
-                #           '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore}')
-                
-                #           response=$(curl -X POST $post_api \
-                #           -H "accept: application/json;charset=utf-8" \
-                #           -H "Content-Type: application/json" \
-                #           -H "token: $token" \
-                #           -d "$score_json" \
-                #           -v)
-                
-                #           echo "Response: $response"
-                
-                #           if echo "$response" | grep -q '"result":1'; then
-                #           echo "Success: The result field contains 1."
-                #           else
-                #           echo "Error: The result field does not contain 1."
-                #           exit 1
-                #           fi
-                
-                #   permissions: write-all
