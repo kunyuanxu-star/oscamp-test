@@ -24,7 +24,7 @@ score=$(grep "Indicator:" $TMP_FILE | tail -n1 | sed -E 's/.*Indicator: ([0-9]+)
 score=${score:-0}
 # fi
 
-# cat $TMP_FILE
+cat $TMP_FILE
 
 rm $TMP_FILE
 
