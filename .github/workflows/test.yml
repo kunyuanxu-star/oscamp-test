@@ -14,7 +14,6 @@ jobs:
       PATH: /opt/musl/x86_64-linux-musl-cross/bin:/opt/musl/aarch64-linux-musl-cross/bin:/opt/musl/riscv64-linux-musl-cross/bin:$HOME/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
     outputs:
       basic_points: ${{ steps.basic_points.outputs.basic_points}}
-      lab1_points: ${{ steps.lab1_points.outputs.lab1_points}}
     steps:
       - name: basic test check 
         uses: actions/checkout@v4
@@ -55,8 +54,6 @@ jobs:
           tar zxf riscv64-linux-musl-cross.tgz
           tar zxf x86_64-linux-musl-cross.tgz
 
-          echo $PATH
-
           qemu-system-riscv64 --version
 
 
@@ -65,8 +62,7 @@ jobs:
         run: |
           qemu-system-riscv64 --version
           source $HOME/.cargo/env
-          pwd
-          echo $PATH
+
           cargo --version
           chmod -R +x scripts/
           
@@ -76,33 +72,6 @@ jobs:
           rm tmp.txt -f
           echo "basic_points=$score" >> $GITHUB_OUTPUT
 
-      - name: lab1 test check 
-        uses: actions/checkout@v4
-        with:
-         ref: mosheng-ci-lab1
-        # 通过pwd看出, 默认是在oscamp-test下执行, 也就是在仓库根目录执行
-        # 当前目录 为仓库根目录
-      - name: Run lab1
-        id : lab1_points
-        run: |
-            qemu-system-riscv64 --version
-            # 必须刷新cargo ,不然shell里面调用cargo 会提前结束
-            export PATH="$HOME/.cargo/bin:$PATH"
-            source $HOME/.cargo/env
-
-            which cargo || echo "cargo not found"
-            cargo --version || echo "cargo command failed"
-            chmod -R +x scripts/
-            cd arceos || exit 1
-            ../scripts/test-lab1.sh > tmpa.txt
-            lab1_score=$(cat tmpa.txt | tail -n1)
-
-            cat tmpa.txt
-
-            echo $lab1_score
-            rm tmpa.txt -f
-            echo "lab1_points=$lab1_score" >>"$GITHUB_OUTPUT"
-
   deploy:
     if: github.repository != 'arceos-org/oscamp'
     name: Report Score to Server
@@ -110,147 +79,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name : Deploy basic to pages
-      #   env : 
-      #     course_id: 1806
-      #     post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
-      #     token: fbee89b9866b46318cddeec86f99f331
-      #     github_user: ${{ github.actor }}
-      #     basic_score: ${{ needs.basic-test.outputs.basic_points }}
-      #   run : |
-      #     echo "Basic: $basic_score"
-      #     echo "Lab1: $lab1_score"
+      - name : Deploy basic to pages
+        env : 
+          course_id: 1806
+          post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
+          token: fbee89b9866b46318cddeec86f99f331
+          github_user: ${{ github.actor }}
+          basic_score: ${{ needs.basic-test.outputs.basic_points }}
+        run : |
+          echo "Basic: $basic_score"
 
-      #     total_score=600
+          total_score=600
 
-      #     # 先上传基础试试
-
-      #     score_json=$(jq -n \
-      #       --arg channel "github" \
-      #       --arg courseId "$course_id" \
-      #       --arg name "$github_user" \
-      #       --arg score "$basic_score" \
-      #       --arg totalScore "$total_score" \
-      #       --arg ext "{}" \
-      #       '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
+          score_json=$(jq -n \
+            --arg channel "github" \
+            --arg courseId "$course_id" \
+            --arg name "$github_user" \
+            --arg score "$basic_score" \
+            --arg totalScore "$total_score" \
+            --arg ext "{}" \
+            '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
 
           
-      #     echo "提交的 JSON:"
-      #     echo "$score_json"
+          response=$(curl -X POST "$post_api" \
+            -H "accept: application/json;charset=utf-8" \
+            -H "Content-Type: application/json" \
+            -H "token: $token" \
+            -d "$score_json" \
+            -s)
 
-      #     response=$(curl -X POST "$post_api" \
-      #       -H "accept: application/json;charset=utf-8" \
-      #       -H "Content-Type: application/json" \
-      #       -H "token: $token" \
-      #       -d "$score_json" \
-      #       -s)
+          if echo "$response" | grep -q '"result":1'; then
+            echo "成功：测试数据已发送"
+          else
+            echo "失败：接口返回异常"
+            exit 1
+          fi
 
-      #     echo "返回结果: $response"
-
-      #     if echo "$response" | grep -q '"result":1'; then
-      #       echo "成功：测试数据已发送"
-      #     else
-      #       echo "失败：接口返回异常"
-      #       exit 1
-      #     fi
-
-      - name : Deploy challenge to pages
-        env : 
-           course_id: 1806
-           post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
-           token: fbee89b9866b46318cddeec86f99f331
-           github_user: ${{ github.actor }}
-           lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
-        run : |
-           echo "Lab1: $lab1_score"
-             total_score=373
-             # 试试挑战题 
-             score_json=$(jq -n \
-             --arg channel "github" \
-             --arg courseId "$course_id" \
-             --arg name "$github_user" \
-             --arg score "$lab1_score" \
-             --arg totalScore "$total_score" \
-             --arg ext "{}" \
-             '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
-             
-           echo "提交的 JSON:"
-           echo "$score_json"
-             response=$(curl -X POST "$post_api" \
-             -H "accept: application/json;charset=utf-8" \
-             -H "Content-Type: application/json" \
-             -H "token: $token" \
-             -d "$score_json" \
-             -s)
-             echo "返回结果: $response"
-             if echo "$response" | grep -q '"result":1'; then
-             echo "成功：测试数据已发送"
-           else
-             echo "失败：接口返回异常"
-             exit 1
-           fi
-
-  # deploy:
-  #   if: github.repository != 'arceos-org/oscamp'
-  #   name: Deploy to pages
-  #   needs: basic-test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #    - name: Checkout repository
-  #      uses: actions/checkout@v4
-    #   steps:
-      #     - uses: actions/checkout@v3
-      #       continue-on-error: true
-      #       with:
-        #         ref: 'gh-pages'
-        #     - name: Save Log File
-        #       uses: yfblock/multi-rank-log@main
-        #       with:
-          #         public-dir: classroom
-          #         points: ${{ needs.basic-test.outputs.points }}
-          #     - name: GitHub Pages
-          #       uses: crazy-max/ghaction-github-pages@v3
-          #       with:
-            #         target_branch: gh-pages
-            #         build_dir: ./classroom
-            #         keep_history: true
-            #       env:
-              #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              #     - name: check score
-              #       env:
-                #         course_id: ${{ secrets.RCORE_2025_SPRING_COURSE_ID }}
-                #         post_api: ${{ secrets.RCORE_2025_SPRING_POST_API }}
-                #         token: ${{ secrets.RCORE_2025_SPRING_TOKEN }}
-                #       run: |
-                #         score=$(( $(grep -o 'ch' classroom/latest.json | wc -l) * 100))
-                #         cat classroom/latest.json
-                #         echo $score
-                
-                #         github_user="${{ github.actor }}"
-                
-                #         # 生成 JSON 结果
-                #         score_json=$(jq -n \
-                #           --arg channel "github" \
-                #           --argjson courseId "$course_id" \
-                #           --arg name "$github_user" \
-                #           --argjson score "$score" \
-                #           --argjson totalScore 500 \
-                #           '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore}')
-                
-                #           response=$(curl -X POST $post_api \
-                #           -H "accept: application/json;charset=utf-8" \
-                #           -H "Content-Type: application/json" \
-                #           -H "token: $token" \
-                #           -d "$score_json" \
-                #           -v)
-                
-                #           echo "Response: $response"
-                
-                #           if echo "$response" | grep -q '"result":1'; then
-                #           echo "Success: The result field contains 1."
-                #           else
-                #           echo "Error: The result field does not contain 1."
-                #           exit 1
-                #           fi
-                
-                #   permissions: write-all
