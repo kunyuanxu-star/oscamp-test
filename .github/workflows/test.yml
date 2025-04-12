@@ -92,50 +92,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name : Deploy basic to pages
-      #   env : 
-      #     course_id: 1806
-      #     post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
-      #     token: fbee89b9866b46318cddeec86f99f331
-      #     github_user: ${{ github.actor }}
-      #     basic_score: ${{ needs.basic-test.outputs.basic_points }}
-      #   run : |
-      #     echo "Basic: $basic_score"
-      #     echo "Lab1: $lab1_score"
-
-      #     total_score=600
-
-      #     # 先上传基础试试
-
-      #     score_json=$(jq -n \
-      #       --arg channel "github" \
-      #       --arg courseId "$course_id" \
-      #       --arg name "$github_user" \
-      #       --arg score "$basic_score" \
-      #       --arg totalScore "$total_score" \
-      #       --arg ext "{}" \
-      #       '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
-
-          
-      #     echo "提交的 JSON:"
-      #     echo "$score_json"
-
-      #     response=$(curl -X POST "$post_api" \
-      #       -H "accept: application/json;charset=utf-8" \
-      #       -H "Content-Type: application/json" \
-      #       -H "token: $token" \
-      #       -d "$score_json" \
-      #       -s)
-
-      #     echo "返回结果: $response"
-
-      #     if echo "$response" | grep -q '"result":1'; then
-      #       echo "成功：测试数据已发送"
-      #     else
-      #       echo "失败：接口返回异常"
-      #       exit 1
-      #     fi
-
       - name : Deploy challenge to pages
         env : 
            course_id: 1806
@@ -146,7 +102,7 @@ jobs:
         run : |
            echo "Lab1: $lab1_score"
 
-           lab1_score=$(echo "$lab1_score" | tr -d '\r\n ')
+           lab1_score_after=$(echo "$lab1_score" | tr -d '\r\n ')
 
     
 
@@ -156,7 +112,7 @@ jobs:
            --arg channel "github" \
            --arg courseId "$course_id" \
            --arg name "$github_user" \
-           --arg score "$lab1_score" \
+           --arg score "$lab1_score_after" \
            --arg totalScore "$total_score" \
            --arg ext "{}" \
            '{
