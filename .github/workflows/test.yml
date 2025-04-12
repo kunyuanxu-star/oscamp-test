@@ -86,8 +86,9 @@ jobs:
         id : lab1_points
         run: |
             chmod -R +x scripts/
-            ./scripts/test-lab1.sh
-
+            ./scripts/test-lab1.sh > tmpa.txt
+            
+            # echo "lab1_points=$score" >>"$GITHUB_OUTPUT"
 
   deploy:
     if: github.repository != 'arceos-org/oscamp'
