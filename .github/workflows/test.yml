@@ -150,7 +150,7 @@ jobs:
              --arg channel "github" \
              --arg courseId "$course_id" \
              --arg name "$github_user" \
-             --arg score "$lab1_score" \
+             --argjson score "$lab1_score" \
              --arg totalScore "$total_score" \
              --arg ext "{}" \
              '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
