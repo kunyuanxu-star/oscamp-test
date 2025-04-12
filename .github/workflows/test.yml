@@ -156,7 +156,7 @@ jobs:
            lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
         run : |
            echo "Lab1: $lab1_score"
-             total_score=99999
+             total_score=373
              # 试试挑战题
              score_json=$(jq -n \
              --arg channel "github" \
