@@ -147,11 +147,11 @@ jobs:
 
            lab1_score=$(echo "$lab1_score" | tr -d '\r\n ')
 
-            if ! [[ "$lab1_score" =~ ^[0-9]+$ ]]; then
+            if ! echo "$lab1_score" | grep -qE '^[0-9]+$'; then
               echo "lab1_score 不是有效数字: '$lab1_score'"
               exit 1
             fi
-            
+
              total_score=373
              # 试试挑战题 
              score_json=$(jq -n \
