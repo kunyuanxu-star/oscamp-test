@@ -88,9 +88,9 @@ jobs:
             chmod -R +x scripts/
             cd arceos || exit 1
             ../scripts/test-lab1.sh > tmpa.txt
-            lab1_score=$(cat tmp.txt | tail -n1)
+            lab1_score=$(cat tmpa.txt | tail -n1)
             echo $lab1_score
-            rm tmp.txt -f
+            rm tmpa.txt -f
             echo "lab1_points=$lab1_score" >>"$GITHUB_OUTPUT"
 
   deploy:
