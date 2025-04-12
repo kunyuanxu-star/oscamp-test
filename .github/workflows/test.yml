@@ -88,10 +88,7 @@ jobs:
             chmod -R +x scripts/
             ./scripts/test-lab1.sh
 
-      - name: debug ci
-        run: | 
-          echo "GITHUB_OUTPUT is $GITHUB_OUTPUT"
-          cat $GITHUB_OUTPUT
+
   deploy:
     if: github.repository != 'arceos-org/oscamp'
     name: Report Score to Server
@@ -102,14 +99,13 @@ jobs:
       - name: Checkout (for consistency)
         uses: actions/checkout@v4
 
-      - name : Deploy to pages
+      - name : Deploy basic to pages
         env : 
           course_id: 1806
           post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
           token: fbee89b9866b46318cddeec86f99f331
           github_user: ${{ github.actor }}
           basic_score: ${{ needs.basic-test.outputs.basic_points }}
-          lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
         run : |
           echo "Basic: $basic_score"
           echo "Lab1: $lab1_score"
@@ -146,6 +142,47 @@ jobs:
             echo "失败：接口返回异常"
             exit 1
           fi
+
+      - name: Checkout (for consistency)
+        uses: actions/checkout@v4
+        with:
+          ref : lab1
+  
+      - name : Deploy challenge to pages
+        env : 
+           course_id: 1806
+           post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
+           token: fbee89b9866b46318cddeec86f99f331
+           github_user: ${{ github.actor }}
+           lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
+        run : |
+           echo "Lab1: $lab1_score"
+             total_score=99999
+             # 试试挑战题
+             score_json=$(jq -n \
+             --arg channel "github" \
+             --arg courseId "$course_id" \
+             --arg name "$github_user" \
+             --arg score "$lab1_score" \
+             --arg totalScore "$total_score" \
+             --arg ext "{}" \
+             '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
+             
+           echo "提交的 JSON:"
+           echo "$score_json"
+             response=$(curl -X POST "$post_api" \
+             -H "accept: application/json;charset=utf-8" \
+             -H "Content-Type: application/json" \
+             -H "token: $token" \
+             -d "$score_json" \
+             -s)
+             echo "返回结果: $response"
+             if echo "$response" | grep -q '"result":1'; then
+             echo "成功：测试数据已发送"
+           else
+             echo "失败：接口返回异常"
+             exit 1
+           fi
 
   # deploy:
   #   if: github.repository != 'arceos-org/oscamp'
