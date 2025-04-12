@@ -22,6 +22,6 @@ fi
 
 rm $TMP_FILE
 
-echo "得分为: $score"
+echo "$score"
 
 # echo "lab1_points=$score" >>"$GITHUB_OUTPUT"
