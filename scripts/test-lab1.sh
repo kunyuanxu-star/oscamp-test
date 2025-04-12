@@ -1,11 +1,22 @@
-#!/bin/bash 
+#!/bin/bash
 
 TMP_FILE=g.txt
+TIMEOUT_DURATION=5
 
-./arceos/verify_lab1.sh > $TMP_FILE 2>/dev/null
+timeout ${TIMEOUT_DURATION}s ./arceos/verify_lab1.sh >$TMP_FILE 2>/dev/null
+exit_code=$?
 
-score=$(grep "Indicator:" $TMP_FILE | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/')
+if [ "$exit_code" -eq 124 ]; then
+    score=99999
+else
+    score=$(grep "Indicator:" $TMP_FILE | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/')
 
-score=${score:-0}
+    score=${score:-0}
+fi
 
-echo "lab1_points=$score" >> "$GITHUB_OUTPUT"
+rm $TMP_FILE
+
+echo "得分为: $score"
+
+
+echo "lab1_points=$score" >>"$GITHUB_OUTPUT"
