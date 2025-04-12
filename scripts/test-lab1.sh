@@ -3,15 +3,14 @@
 TMP_FILE=g.txt
 TIMEOUT_DURATION=20
 
-# echo "=== 开始测试 lab1 ==="
-# 工作目录的原因,这个得在ci设置为arceos目录下运行
-# pwd
+echo "=== 开始测试 lab1 ==="
+工作目录的原因,这个得在ci设置为arceos目录下运行
+pwd
 
-# which cargo
-# cargo --version
+which cargo
+cargo --version
 
-timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 2>/dev/null
-# exit_code=$?
+timeout --foreground ${TIMEOUT_DURATION}s ./verify_lab1.sh >"$TMP_FILE" 
 
 # echo "timeout exit_code = $exit_code"
 
