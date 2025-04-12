@@ -85,6 +85,8 @@ jobs:
       - name: Run lab1
         id : lab1_points
         run: |
+            qemu-system-riscv64 --version
+            source $HOME/.cargo/env
             chmod -R +x scripts/
             cd arceos || exit 1
             ../scripts/test-lab1.sh > tmpa.txt
