@@ -144,6 +144,14 @@ jobs:
            lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
         run : |
            echo "Lab1: $lab1_score"
+
+           lab1_score=$(echo "$lab1_score" | tr -d '\r\n ')
+
+            if ! [[ "$lab1_score" =~ ^[0-9]+$ ]]; then
+              echo "lab1_score 不是有效数字: '$lab1_score'"
+              exit 1
+            fi
+            
              total_score=373
              # 试试挑战题 
              score_json=$(jq -n \
