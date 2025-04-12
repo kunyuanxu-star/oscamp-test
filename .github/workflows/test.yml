@@ -87,11 +87,18 @@ jobs:
         run: |
             qemu-system-riscv64 --version
             # 必须刷新cargo ,不然shell里面调用cargo 会提前结束
+            export PATH="$HOME/.cargo/bin:$PATH"
             source $HOME/.cargo/env
+
+            which cargo || echo "cargo not found"
+            cargo --version || echo "cargo command failed"
             chmod -R +x scripts/
             cd arceos || exit 1
             ../scripts/test-lab1.sh > tmpa.txt
             lab1_score=$(cat tmpa.txt | tail -n1)
+
+            cat tmpa.txt
+
             echo $lab1_score
             rm tmpa.txt -f
             echo "lab1_points=$lab1_score" >>"$GITHUB_OUTPUT"
