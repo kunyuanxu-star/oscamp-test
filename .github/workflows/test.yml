@@ -157,7 +157,7 @@ jobs:
         run : |
            echo "Lab1: $lab1_score"
              total_score=373
-             # 试试挑战题
+             # 试试挑战题 
              score_json=$(jq -n \
              --arg channel "github" \
              --arg courseId "$course_id" \
