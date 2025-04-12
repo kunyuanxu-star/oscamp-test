@@ -147,13 +147,13 @@ jobs:
              total_score=373
              # 试试挑战题 
              score_json=$(jq -n \
-             --arg channel "github" \
-             --arg courseId "$course_id" \
-             --arg name "$github_user" \
-             --argjson score "$lab1_score" \
-             --arg totalScore "$total_score" \
-             --arg ext "{}" \
-             '{channel: $channel, courseId: $courseId, name: $name, score: ($score | tonumber), totalScore: ($totalScore | tonumber), ext: $ext}')
+              --arg channel "github" \
+              --arg courseId "$course_id" \
+              --arg name "$github_user" \
+              --argjson score "$lab1_score" \
+              --argjson totalScore "$total_score" \
+              --arg ext "{}" \
+              '{channel: $channel, courseId: $courseId, name: $name, score: $score, totalScore: $totalScore, ext: $ext}')
              
            echo "提交的 JSON:"
            echo "$score_json"
