@@ -78,7 +78,7 @@ jobs:
             ../scripts/test-lab1.sh > tmpa.txt
             lab1_score=$(cat tmpa.txt | tail -n1)
 
-            # cat tmpa.txt
+            cat tmpa.txt
 
             echo $lab1_score
             echo "lab1_points=$lab1_score" 
