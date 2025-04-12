@@ -71,14 +71,15 @@ jobs:
             export PATH="$HOME/.cargo/bin:$PATH"
             source $HOME/.cargo/env
 
-            chmod -R +x scripts/
             cd arceos || exit 1
 
+            ./verify_lab1.sh
 
-            ../scripts/test-lab1.sh
+            ./verify_lab1.sh > tmpa.txt
 
-            ../scripts/test-lab1.sh > tmpa.txt
-            lab1_score=$(tail -n1 tmpa.txt | grep -oE '[0-9]+')
+            lab1_score=$(grep "Indicator:" tmpa.txt | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/' | grep -oE '[0-9]+')
+            
+            lab1_score=${lab1_score:-0}
 
             cat tmpa.txt
 
