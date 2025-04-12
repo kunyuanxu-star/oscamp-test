@@ -5,7 +5,7 @@ TIMEOUT_DURATION=20
 
 # echo "=== 开始测试 lab1 ==="
 # 工作目录的原因,这个得在ci设置为arceos目录下运行
-# pwd
+pwd
 
 # which cargo
 # cargo --version
