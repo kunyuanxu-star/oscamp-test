@@ -73,8 +73,6 @@ jobs:
 
             cd arceos || exit 1
 
-            ./verify_lab1.sh
-
             ./verify_lab1.sh > tmpa.txt
 
             lab1_score=$(grep "Indicator:" tmpa.txt | tail -n1 | sed -E 's/.*Indicator: ([0-9]+).*/\1/' | grep -oE '[0-9]+')
