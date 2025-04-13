@@ -65,12 +65,12 @@ jobs:
             cd arceos || exit 1
 
             ./verify_lab1.sh
-            ./verify_lab1.sh > tmpa.txt
+            # ./verify_lab1.sh > tmpa.txt
 
-            lab1_score=$(grep -oE 'Indicator: *[0-9]+' tmpa.txt | tail -n1 | grep -oE '[0-9]+')
-            lab1_score=${lab1_score:-0}
+            # lab1_score=$(grep -oE 'Indicator: *[0-9]+' tmpa.txt | tail -n1 | grep -oE '[0-9]+')
+            # lab1_score=${lab1_score:-0}
 
-            cat tmpa.txt
+            # cat tmpa.txt
 
             echo "lab1_points=$lab1_score" 
             echo "lab1_points=$lab1_score" >>"$GITHUB_OUTPUT"
