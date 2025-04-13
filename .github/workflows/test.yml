@@ -66,7 +66,8 @@ jobs:
 
             ./verify_lab1.sh > tmpa.txt
 
-            lab1_score=$(grep "Indicator:" tmpa.txt | tail -n1 | sed -E 's/.*Indicator: *([0-9]+).*/\1/' || echo 0)
+            lab1_score=$(grep -oE 'Indicator: *[0-9]+' tmpa.txt | tail -n1 | grep -oE '[0-9]+')
+            lab1_score=${lab1_score:-0}
             
             cat tmpa.txt
 
