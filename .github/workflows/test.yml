@@ -56,7 +56,6 @@ jobs:
 
       - name: Run lab1
         id : lab1_points
-        continue-on-error: true
         run: |
             qemu-system-riscv64 --version
 
@@ -65,7 +64,6 @@ jobs:
 
             cd arceos || exit 1
 
-            ./verify_lab1.sh
             ./verify_lab1.sh > tmpa.txt
 
             lab1_score=$(grep -oE 'Indicator: *[0-9]+' tmpa.txt | tail -n1 | grep -oE '[0-9]+') || true
