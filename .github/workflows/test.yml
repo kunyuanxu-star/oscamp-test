@@ -18,7 +18,7 @@ jobs:
       - name: challenge test check 
         uses: actions/checkout@v4
         with:
-         ref: mosheng-ci-lab1
+         ref: lab1
     
       - name: install dependencies
         run: |
@@ -85,9 +85,9 @@ jobs:
     steps:
       - name : Deploy challenge to pages
         env : 
-           course_id: 1806
+           course_id: 1818
            post_api: https://api.opencamp.cn/web/api/courseRank/createByThirdToken
-           token: fbee89b9866b46318cddeec86f99f331
+           token: 1c2003a5650243bb8efa1662fbcd7214
            github_user: ${{ github.actor }}
            lab1_score: ${{ needs.basic-test.outputs.lab1_points }}
         run : |
