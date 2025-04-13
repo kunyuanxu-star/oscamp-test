@@ -1,6 +1,0 @@
-    [92;1mCreating[0m FAT32 disk image "disk.img" ...
-mkfs.fat 4.2 (2021-01-31)
-
-[37m[  0.044977 0 axruntime::lang_items:5] [31mpanicked at labs/lab_allocator/src/lib.rs:20:9:
-not implemented[m
-[m
